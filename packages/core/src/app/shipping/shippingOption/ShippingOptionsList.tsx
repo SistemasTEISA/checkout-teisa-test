@@ -75,7 +75,9 @@ const ShippingOptionsList: FunctionComponent<ShippingOptionListProps> = ({
         return null;
     }
 
-    console.error('TEISA TEST SHIPPING OPTIONS:', shippingOptions);
+    const hasFreeShipping = shippingOptions.some((option) => option.type === 'freeshipping',);
+
+    const visibleShippingOptions = hasFreeShipping ? shippingOptions.filter((option) => option.type !== 'shipping_flatrate',): shippingOptions;
 
     return (
         <LoadingOverlay isLoading={isLoading}>
@@ -85,7 +87,7 @@ const ShippingOptionsList: FunctionComponent<ShippingOptionListProps> = ({
                 name={inputName}
                 onSelect={handleSelect}
             >
-                {shippingOptions.map((shippingOption) => (
+                {visibleShippingOptions.map((shippingOption) => (
                     <ShippingOptionListItem
                         consignmentId={consignmentId}
                         isMultiShippingMode={isMultiShippingMode}
