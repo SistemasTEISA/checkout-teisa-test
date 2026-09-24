@@ -175,7 +175,7 @@
     "style-loader": "^0.23.1",
     "stylelint": "^15.10.1",
     "stylelint-config-standard-scss": "^7.0.1",
-    "stylelint-order": "^6.0.3",
+    "stylelint-order": "^8.1.1",
     "stylelint-webpack-plugin": "^4.1.0",
     "terser-webpack-plugin": "^5.3.3",
     "thread-loader": "^4.0.4",
