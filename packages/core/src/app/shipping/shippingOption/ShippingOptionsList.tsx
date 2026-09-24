@@ -93,7 +93,10 @@ const ShippingOptionsList: FunctionComponent<ShippingOptionListProps> = ({
                         isMultiShippingMode={isMultiShippingMode}
                         key={shippingOption.id}
                         selectedShippingOptionId={selectedShippingOptionId}
-                        shippingOption={shippingOption}
+                        shippingOption={{
+                            ...shippingOption,
+                            description: shippingOption.type === 'freeshipping' ? 'ENVÍO GRATIS' : shippingOption.description,
+                        }}
                     />
                 ))}
             </Checklist>
