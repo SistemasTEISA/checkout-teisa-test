@@ -75,6 +75,8 @@ const ShippingOptionsList: FunctionComponent<ShippingOptionListProps> = ({
         return null;
     }
 
+    console.log('TEISA SHIPPING OPTIONS:', shippingOptions);
+
     return (
         <LoadingOverlay isLoading={isLoading}>
             <Checklist
