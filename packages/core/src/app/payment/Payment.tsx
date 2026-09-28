@@ -53,6 +53,7 @@ export interface PaymentProps {
 }
 
 interface WithCheckoutPaymentProps {
+    checkoutId: string;
     availableStoreCredit: number;
     cartUrl: string;
     defaultMethod?: PaymentMethod;
@@ -456,7 +457,7 @@ class Payment extends Component<
         }
     };
 
-    private setSelectedMethod: (method?: PaymentMethod) => void = (method) => {
+    private setSelectedMethod: (method?: PaymentMethod) => void = async (method) => {
         const { selectedMethod } = this.state;
 
         if (selectedMethod === method) {
@@ -464,16 +465,38 @@ class Payment extends Component<
         }
 
         if (method) {
-            console.log('TEISA PAYMENT METHOD:', {
-                id: method.id,
-                gateway: method.gateway,
-                displayName: method.config?.displayName,
-                method: method.method,
-            });
             this.trackSelectedPaymentMethod(method);
         }
 
         this.setState({ selectedMethod: method });
+
+        // APLICAR 5% DE DESCUENTO EN PAGOS CON TRASFERENCIA
+        if (!method) {
+            return;
+        }
+
+        try {
+            const { checkoutId, loadCheckout } = this.props;
+
+            const response = await fetch('/api/transfer-discount', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    checkoutId,
+                    paymentMethodId: method.id,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('No se pudo actualizar el descuento');
+            }
+
+            await loadCheckout();
+        } catch (error) {
+            console.error('TEISA transfer discount error:', error);
+        }
     };
 
     private setSubmit: (
@@ -656,6 +679,7 @@ export function mapToPaymentProps({
     }
 
     return {
+        checkoutId: checkout.id,
         applyStoreCredit: checkoutService.applyStoreCredit,
         availableStoreCredit: customer.storeCredit,
         cartUrl: config.links.cartLink,
