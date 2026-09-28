@@ -103,6 +103,7 @@ class Payment extends Component<
     };
 
     private grandTotalChangeUnsubscribe?: () => void;
+    private initialTransferDiscountApplied = false;
 
     private getContextValue = memoizeOne(() => {
         return {
@@ -122,15 +123,7 @@ class Payment extends Component<
             usableStoreCredit,
             checkoutServiceSubscribe,
         } = this.props;
-
-
-        // AGREGAR 5% DE DESCUENTO SI TRAFERENCIA ES LA PRIMERA OPCIÓN
-        const { defaultMethod } = this.props;
-
-        if (defaultMethod?.id === 'bankdeposit') {
-            void this.applyTransferDiscount(defaultMethod);
-        }
-
+        
         if (usableStoreCredit) {
             this.handleStoreCreditChange(true);
         }
@@ -160,9 +153,23 @@ class Payment extends Component<
     }
 
     componentDidUpdate(): void {
-        const { checkEmbeddedSupport = noop, methods } = this.props;
+        const {
+            checkEmbeddedSupport = noop,
+            methods,
+            defaultMethod,
+        } = this.props;
 
         checkEmbeddedSupport(methods.map(({ id }) => id));
+
+        if (
+            !this.initialTransferDiscountApplied &&
+            defaultMethod?.id === 'bankdeposit' &&
+            !this.state.selectedMethod
+        ) {
+            this.initialTransferDiscountApplied = true;
+
+            void this.applyTransferDiscount(defaultMethod);
+        }
     }
 
     componentWillUnmount(): void {
