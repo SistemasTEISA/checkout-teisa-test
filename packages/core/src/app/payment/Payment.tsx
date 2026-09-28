@@ -123,6 +123,14 @@ class Payment extends Component<
             checkoutServiceSubscribe,
         } = this.props;
 
+
+        // AGREGAR 5% DE DESCUENTO SI TRAFERENCIA ES LA PRIMERA OPCIÓN
+        const { defaultMethod } = this.props;
+
+        if (defaultMethod?.id === 'bankdeposit') {
+            void this.applyTransferDiscount(defaultMethod);
+        }
+
         if (usableStoreCredit) {
             this.handleStoreCreditChange(true);
         }
@@ -475,12 +483,12 @@ class Payment extends Component<
             return;
         }
 
+        await this.applyTransferDiscount(method);
+    };
+
+    private applyTransferDiscount = async (method: PaymentMethod): Promise<void> => {
         try {
             const { checkoutId, loadCheckout } = this.props;
-            console.log('TEISA DISCOUNT REQUEST:', {
-                checkoutId,
-                paymentMethodId: method.id,
-            });
 
             const response = await fetch(
                 'https://checkout-teisa-test.vercel.app/api/transfer-discount',
