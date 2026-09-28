@@ -104,6 +104,7 @@ class Payment extends Component<
 
     private grandTotalChangeUnsubscribe?: () => void;
     private initialTransferDiscountApplied = false;
+    private skipNextGrandTotalChange = false;
 
     private getContextValue = memoizeOne(() => {
         return {
@@ -495,7 +496,7 @@ class Payment extends Component<
 
     private applyTransferDiscount = async (method: PaymentMethod): Promise<void> => {
         try {
-            const { checkoutId } = this.props;
+            const { checkoutId, loadCheckout } = this.props;
 
             const response = await fetch(
                 'https://checkout-teisa-test.vercel.app/api/transfer-discount',
@@ -515,11 +516,12 @@ class Payment extends Component<
                 throw new Error('No se pudo actualizar el descuento');
             }
 
-            const result = await response.json();
+            this.skipNextGrandTotalChange = true;
 
-            console.log('TEISA DISCOUNT RESULT:', result);
-
+            await loadCheckout();
         } catch (error) {
+            this.skipNextGrandTotalChange = false;
+
             console.error('TEISA transfer discount error:', error);
         }
     };
@@ -591,6 +593,12 @@ class Payment extends Component<
     }
 
     private async handleCartTotalChange(): Promise<void> {
+        if (this.skipNextGrandTotalChange) {
+            this.skipNextGrandTotalChange = false;
+
+            return;
+        }
+
         const { isReady } = this.state;
 
         if (!isReady) {
