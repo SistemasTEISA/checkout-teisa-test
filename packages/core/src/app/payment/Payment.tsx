@@ -477,17 +477,24 @@ class Payment extends Component<
 
         try {
             const { checkoutId, loadCheckout } = this.props;
-
-            const response = await fetch('/api/transfer-discount', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    checkoutId,
-                    paymentMethodId: method.id,
-                }),
+            console.log('TEISA DISCOUNT REQUEST:', {
+                checkoutId,
+                paymentMethodId: method.id,
             });
+
+            const response = await fetch(
+                'https://checkout-teisa-test.vercel.app/api/transfer-discount',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        checkoutId,
+                        paymentMethodId: method.id,
+                    }),
+                },
+            );
 
             if (!response.ok) {
                 throw new Error('No se pudo actualizar el descuento');
