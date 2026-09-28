@@ -123,7 +123,7 @@ class Payment extends Component<
             usableStoreCredit,
             checkoutServiceSubscribe,
         } = this.props;
-        
+
         if (usableStoreCredit) {
             this.handleStoreCreditChange(true);
         }
@@ -495,7 +495,7 @@ class Payment extends Component<
 
     private applyTransferDiscount = async (method: PaymentMethod): Promise<void> => {
         try {
-            const { checkoutId, loadCheckout } = this.props;
+            const { checkoutId } = this.props;
 
             const response = await fetch(
                 'https://checkout-teisa-test.vercel.app/api/transfer-discount',
@@ -515,7 +515,10 @@ class Payment extends Component<
                 throw new Error('No se pudo actualizar el descuento');
             }
 
-            await loadCheckout();
+            const result = await response.json();
+
+            console.log('TEISA DISCOUNT RESULT:', result);
+
         } catch (error) {
             console.error('TEISA transfer discount error:', error);
         }
