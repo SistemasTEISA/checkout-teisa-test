@@ -28,6 +28,32 @@ async function bcFetch(path, options = {}) {
 }
 
 module.exports = async function handler(req, res) {
+    const allowedOrigins = [
+        'https://toolmex.mybigcommerce.com',
+    ];
+
+    const origin = req.headers.origin;
+
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
+
+    res.setHeader('Vary', 'Origin');
+
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'POST, OPTIONS'
+    );
+
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Content-Type, X-CSRF-Token'
+    );
+
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end();
+    }
+
     if (req.method !== 'POST') {
         return res.status(405).json({
             success: false,
