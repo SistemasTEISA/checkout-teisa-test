@@ -464,6 +464,12 @@ class Payment extends Component<
         }
 
         if (method) {
+            console.log('TEISA PAYMENT METHOD:', {
+                id: method.id,
+                gateway: method.gateway,
+                displayName: method.config?.displayName,
+                method: method.method,
+            });
             this.trackSelectedPaymentMethod(method);
         }
 
