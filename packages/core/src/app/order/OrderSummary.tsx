@@ -55,6 +55,13 @@ const OrderSummary: FunctionComponent<OrderSummaryProps & OrderSummarySubtotalsP
             <Extension region={ExtensionRegion.SummaryLastItemAfter} />
 
             <OrderSummarySection>
+                <div className="teisa-discount-notice">
+                    <strong>Obtén 5% de descuento</strong>
+                    <span> pagando mediante transferencia bancaria.</span>
+                </div>
+            </OrderSummarySection>
+
+            <OrderSummarySection>
                 <OrderSummarySubtotals isTaxIncluded={isTaxIncluded} taxes={taxes} {...orderSummarySubtotalsProps} />
                 {additionalLineItems}
             </OrderSummarySection>
