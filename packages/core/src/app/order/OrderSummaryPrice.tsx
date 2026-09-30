@@ -63,17 +63,9 @@ const OrderSummaryPrice: FC<OrderSummaryPriceProps> = ({
     const [ previousAmount, setPreviousAmount ] = useState<OrderSummaryPriceProps['amount']>(amount);
     const {
         checkoutState: {
-            data,
             statuses: { isSubmittingOrder }
         }
     } = useCheckout();
-
-    const selectedPaymentMethod = data.getSelectedPaymentMethod();
-
-    const isBankDepositDiscount =
-        testId === 'cart-discount' &&
-        selectedPaymentMethod?.id === 'bankdeposit';
-    
 
     const { newFontStyle } = useStyleContext();
     const displayValue = getDisplayValue(amount, zeroLabel);
@@ -123,15 +115,8 @@ const OrderSummaryPrice: FC<OrderSummaryPriceProps> = ({
                             'sub-header': newFontStyle && isOrderTotal
                         })}
                     >
-                        <span
-                            className={classNames({
-                                'teisa-bankdeposit-discount-label': isBankDepositDiscount,
-                            })}
-                            data-test="cart-price-label"
-                        >
-                            {isBankDepositDiscount
-                                ? 'Descuento por transferencia'
-                                : label}
+                        <span data-test="cart-price-label">
+                            {label}
                             {'  '}
                         </span>
                         {currencyCode && (

@@ -1,6 +1,28 @@
 // =============================================================================
 // PAYMENT PROVIDER (Component)
 // =============================================================================
+body:has(#radio-bankdeposit:checked) {
+    [data-test="cart-discount"] {
+
+        [data-test="cart-price-label"] {
+            font-size: 0;
+            color: #28a745;
+
+            &::after {
+                content: "Descuento por transferencia";
+                font-size: 14px;
+                font-weight: 600;
+                color: #28a745;
+            }
+        }
+
+        [data-test="cart-price-value"] {
+            color: #28a745;
+            font-weight: 600;
+        }
+    }
+}
+
 .paymentProviderHeader-container {
     align-items: start;
     display: flex;
