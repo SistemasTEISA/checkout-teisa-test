@@ -494,6 +494,7 @@ class Payment extends Component<
         await this.applyTransferDiscount(method);
     };
 
+    // METODO QUE MANDA LLAMAR LA API DEL DESCUENTO DEL 5%
     private applyTransferDiscount = async (method: PaymentMethod): Promise<void> => {
         try {
             const { checkoutId, loadCheckout } = this.props;

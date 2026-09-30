@@ -64,6 +64,17 @@
     flex-shrink: 1;
 }
 
+div[data-test="payment-method-bankdeposit"] {
+    .paymentProviderHeader-name::after {
+        content: "Si seleccionas esta opción tienes 5% de descuento";
+        display: block;
+        color: #28a745;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+}
+
 @media (max-width: $screen-xsmall) {
     div[data-test="payment-method-sezzle"] {
         .paymentProviderHeader-name {

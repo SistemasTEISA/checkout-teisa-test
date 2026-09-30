@@ -77,9 +77,7 @@ module.exports = async function handler(req, res) {
         );
 
         let checkout = response.data;
-
-        // 2. Quitar descuento manual actual
-        //    para evitar calcular 5% sobre un total ya descontado
+        
         response = await bcFetch(
             `/v3/checkouts/${encodeURIComponent(checkoutId)}/discounts`,
             {
@@ -94,7 +92,6 @@ module.exports = async function handler(req, res) {
 
         checkout = response.data;
 
-        // 3. Si NO es transferencia, dejamos el checkout normal
         if (paymentMethodId !== TRANSFER_METHOD_ID) {
             return res.status(200).json({
                 success: true,
@@ -104,8 +101,6 @@ module.exports = async function handler(req, res) {
             });
         }
 
-        // 4. Usamos grand_total completo:
-        // productos + envío + impuestos, etc.
         const grandTotal = Number(checkout.grand_total);
 
         const discountAmount = Number(
