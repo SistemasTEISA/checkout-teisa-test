@@ -50,16 +50,21 @@ const OrderSummary: FunctionComponent<OrderSummaryProps & OrderSummarySubtotalsP
 
             <OrderSummarySection>
                 <OrderSummaryItems displayLineItemsCount items={nonBundledLineItems} newFontStyle={newFontStyle} />
+                
+                <div style={{ 
+                    background: '#f2f2f2',
+                    borderTop: 'none',
+                    padding: '15px',
+                    margin: '1.5rem',
+                    borderRadius: '10px',
+                    border: '1px solid #ccc',
+                }}>
+                    <h3 style={{ margin: 0, color: '#28a745'}}>Paga por Transferencia y ahorra 5%</h3>
+                    <p style={{ margin: 0 }}> Selecciona este metodo de pago al finalizar tu compra</p>
+                </div>
             </OrderSummarySection>
 
             <Extension region={ExtensionRegion.SummaryLastItemAfter} />
-
-            <OrderSummarySection>
-                <div className="teisa-discount-notice">
-                    <strong>Obtén 5% de descuento</strong>
-                    <span> pagando mediante transferencia bancaria.</span>
-                </div>
-            </OrderSummarySection>
 
             <OrderSummarySection>
                 <OrderSummarySubtotals isTaxIncluded={isTaxIncluded} taxes={taxes} {...orderSummarySubtotalsProps} />
