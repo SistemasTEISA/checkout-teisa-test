@@ -52,12 +52,12 @@ const OrderSummary: FunctionComponent<OrderSummaryProps & OrderSummarySubtotalsP
                 <OrderSummaryItems displayLineItemsCount items={nonBundledLineItems} newFontStyle={newFontStyle} />
                 
                 <div style={{ 
-                    background: '#f2f2f2',
+                    background: '#f6f6f6',
                     borderTop: 'none',
                     padding: '15px',
                     marginTop: '2rem',
                     borderRadius: '10px',
-                    border: '1px solid #ccc',
+                    border: '1px solid #e4e4e4',
                 }}>
                     <h3 style={{ margin: 0, color: '#28a745'}}>Paga por Transferencia y ahorra 5%</h3>
                     <p style={{ margin: 0 }}> Selecciona este metodo de pago al finalizar tu compra</p>
