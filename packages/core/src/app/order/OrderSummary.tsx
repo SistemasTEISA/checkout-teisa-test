@@ -55,7 +55,7 @@ const OrderSummary: FunctionComponent<OrderSummaryProps & OrderSummarySubtotalsP
                     background: '#f2f2f2',
                     borderTop: 'none',
                     padding: '15px',
-                    margin: '1.5rem',
+                    marginTop: '2rem',
                     borderRadius: '10px',
                     border: '1px solid #ccc',
                 }}>
